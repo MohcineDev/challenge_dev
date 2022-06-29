@@ -12,9 +12,6 @@ const userName = document.querySelector('#username')
 const createdDate = document.querySelector('#createdDate')
 const registrationNumber = document.querySelector('#registrationNumber')
 
-//delete user //no btns on the page load
-let deleteBtns = []
-
 //
 let users = [
     {
@@ -92,7 +89,11 @@ function displayTable() {
         displayCurrentRow(i)
     }
 }
-
+// delete selected table row
+function deleteUser(rowNumber, deleteBtn) {
+     users.pop(rowNumber)
+     table.removeChild(deleteBtn.parentElement.parentElement)
+}
 //display a row
 function displayCurrentRow(i) {
 
@@ -101,44 +102,48 @@ function displayCurrentRow(i) {
     // add id
     const id = document.createElement('td')
     id.textContent = users[i].id
-    // add id
+    // add createdDate
     const createdDate = document.createElement('td')
     const onlyDate = `${new Date(users[i].createdDate).getDate()}/${new Date(users[i].createdDate).getMonth() + 1}/${new Date(users[i].createdDate).getFullYear()}`
     createdDate.textContent = onlyDate
-    // add id
+    // add status
     const status = document.createElement('td')
     const span = document.createElement('span')
     status.classList.add('status')
     span.textContent = users[i].status
     status.appendChild(span)
 
-    //apply style
+    //apply status style
     if (users[i].status == 'En validation') {
         span.classList.add('on-validation')
-    } else if (users[i].status == 'Rejeté') {
+    }
+    else if (users[i].status == 'Rejeté') {
         span.classList.add('rejected')
-    } else if (users[i].status == 'Validé') {
+    }
+    else if (users[i].status == 'Validé') {
         span.classList.add('valide')
-
     }
 
-    // add id
+    // add firstName
     const firstName = document.createElement('td')
     firstName.textContent = users[i].firstName
-    // add id
+    // add lastName
     const lastName = document.createElement('td')
     lastName.textContent = users[i].lastName
-    // add id
+    // add userName
     const userName = document.createElement('td')
     userName.textContent = users[i].userName
-    // add id
+    // add registrationNumber
     const registrationNumber = document.createElement('td')
     registrationNumber.textContent = users[i].registrationNumber
 
     //add delete icon
+    let rowNumber = 0
     const action = document.createElement('td')
     const icon = document.createElement('img')
     icon.src = './delete.svg'
+    icon.setAttribute('data-rowNumber', rowNumber)
+    icon.addEventListener('click', () => deleteUser(rowNumber, icon))
     action.appendChild(icon)
 
     tr.appendChild(id)
@@ -151,16 +156,11 @@ function displayCurrentRow(i) {
     tr.appendChild(action)
     table.appendChild(tr)
 
-    //get delete btns after they created
-    deleteBtns = document.querySelectorAll('table td img')
-
+    //increase row index
+    rowNumber++
+  
 }
-displayTable() 
+displayTable()
 
-deleteBtns.forEach((btn, index) => {
-
-    btn.addEventListener('click', (e) => {
-        users.pop(index)
-        table.removeChild(btn.parentElement.parentElement)
-    })
-})
+ 
+  
