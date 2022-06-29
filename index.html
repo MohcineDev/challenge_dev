@@ -10,21 +10,62 @@
 </head>
 
 <body>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Date de création</th>
-        <th>Etat</th>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Nom d'utilisateur</th>
-        <th>Matricule</th>
-        <th>Action</th>
-    </tr>
-</table>
-<div class="add_container">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Date de création</th>
+            <th>Etat</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Nom d'utilisateur</th>
+            <th>Matricule</th>
+            <th>Action</th>
+        </tr>
+    </table>
+    <div class="add_container">
+        <button>Ajouter utilisateur</button>
+    </div>
 
-    <button>Ajouter utilisateur</button>
+    <!-- modal -->
+    <div class="add_user">
+        <div class="dialog">
+            
+            
+        <p>Ajout d'utilisateurs</p>
+        <form>
+            <div class="inputs">
+                <div>
+                    <label for="firstName">Nom</label>
+                    <input type="text" id="firstName">
+                </div>
+                <div>
+                    <label for="lastName">Prénom</label>
+                    <input type="text" id="lastName">
+                </div>
+                <div>
+                    <label for="status">Etat</label>
+                    <input type="text" id="status">
+                </div>
+            </div>
+            <div class="inputs">
+                <div>
+                    <label for="username">Nom d'utilisateur</label>
+                    <input type="text" id="username">
+                </div>
+                <div>
+                    <label for="createdDate">Date de création</label>
+                    <input type="date" id="createdDate">
+                </div>
+            </div>
+            <div class="inputs">
+                <div>
+                    <label for="registrationNumber">Matricule</label>
+                    <input type="text" id="registrationNumber">
+                </div>
+            </div>
+            <input type="submit" value="Enregistrer">
+        </form>
+    </div>
 </div>
     <script src="./script.js"></script>
 </body>

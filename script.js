@@ -1,5 +1,21 @@
 const table = document.querySelector('table')
+const showModal = document.querySelector('.add_container button')
+const addUserModal = document.querySelector('.add_user')
+const addBtn = document.querySelector('form')
+const modalInputs = document.querySelectorAll('form .inputs input')
 
+// add user inputs
+const firstName = document.querySelector('#firstName')
+const lastName = document.querySelector('#lastName')
+const statusVal = document.querySelector('#status')
+const userName = document.querySelector('#username')
+const createdDate = document.querySelector('#createdDate')
+const registrationNumber = document.querySelector('#registrationNumber')
+
+//delete user //no btns on the page load
+let deleteBtns = []
+
+//
 let users = [
     {
         id: "123456789",
@@ -30,10 +46,56 @@ let users = [
     }
 
 ]
+//display the modal
+showModal.addEventListener('click', () => {
+    addUserModal.style.display = 'block'
+})
+
+//hide modal on bg click
+addUserModal.addEventListener('click', (e) => {
+    if (e.target.classList[0] === 'add_user') {
+        addUserModal.style.display = 'none'
+    }
+})
+//clear inputs 
+function clearInputs() {
+    modalInputs.forEach(input => input.value = '')
+}
+//add user
+//submit form
+addBtn.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    const newUser = {
+        id: Math.floor(Math.random() * 100000),
+        createdDate: createdDate.value,
+        status: statusVal.value,
+        firstName: firstName.value,
+        lastName: lastName.value,
+        userName: userName.value,
+        registrationNumber: registrationNumber.value
+    }
+
+    users.push(newUser)
+    addUserModal.style.display = 'none'
+    displayCurrentRow(users.length - 1)
+
+    clearInputs()
+
+})
 
 // create  table tr td
 
-for (let i = 0; i < users.length; i++) {
+function displayTable() {
+
+    for (let i = 0; i < users.length; i++) {
+        displayCurrentRow(i)
+    }
+}
+
+//display a row
+function displayCurrentRow(i) {
+
     const tr = document.createElement('tr')
 
     // add id
@@ -41,11 +103,25 @@ for (let i = 0; i < users.length; i++) {
     id.textContent = users[i].id
     // add id
     const createdDate = document.createElement('td')
-    const onlyDate = `${new Date(users[i].createdDate).getDate()}/${new Date(users[i].createdDate).getMonth() +1 }/${new Date(users[i].createdDate).getFullYear()}`
+    const onlyDate = `${new Date(users[i].createdDate).getDate()}/${new Date(users[i].createdDate).getMonth() + 1}/${new Date(users[i].createdDate).getFullYear()}`
     createdDate.textContent = onlyDate
     // add id
     const status = document.createElement('td')
-    status.textContent = users[i].status
+    const span = document.createElement('span')
+    status.classList.add('status')
+    span.textContent = users[i].status
+    status.appendChild(span)
+
+    //apply style
+    if (users[i].status == 'En validation') {
+        span.classList.add('on-validation')
+    } else if (users[i].status == 'Rejeté') {
+        span.classList.add('rejected')
+    } else if (users[i].status == 'Validé') {
+        span.classList.add('valide')
+
+    }
+
     // add id
     const firstName = document.createElement('td')
     firstName.textContent = users[i].firstName
@@ -58,7 +134,13 @@ for (let i = 0; i < users.length; i++) {
     // add id
     const registrationNumber = document.createElement('td')
     registrationNumber.textContent = users[i].registrationNumber
-    
+
+    //add delete icon
+    const action = document.createElement('td')
+    const icon = document.createElement('img')
+    icon.src = './delete.svg'
+    action.appendChild(icon)
+
     tr.appendChild(id)
     tr.appendChild(createdDate)
     tr.appendChild(status)
@@ -66,7 +148,19 @@ for (let i = 0; i < users.length; i++) {
     tr.appendChild(lastName)
     tr.appendChild(userName)
     tr.appendChild(registrationNumber)
+    tr.appendChild(action)
     table.appendChild(tr)
 
+    //get delete btns after they created
+    deleteBtns = document.querySelectorAll('table td img')
 
 }
+displayTable() 
+
+deleteBtns.forEach((btn, index) => {
+
+    btn.addEventListener('click', (e) => {
+        users.pop(index)
+        table.removeChild(btn.parentElement.parentElement)
+    })
+})
