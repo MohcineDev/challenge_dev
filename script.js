@@ -43,43 +43,6 @@ let users = [
     }
 
 ]
-//display the modal
-showModal.addEventListener('click', () => {
-    addUserModal.style.display = 'block'
-})
-
-//hide modal on bg click
-addUserModal.addEventListener('click', (e) => {
-    if (e.target.classList[0] === 'add_user') {
-        addUserModal.style.display = 'none'
-    }
-})
-//clear inputs 
-function clearInputs() {
-    modalInputs.forEach(input => input.value = '')
-}
-//add user
-//submit form
-addBtn.addEventListener('submit', (e) => {
-    e.preventDefault()
-
-    const newUser = {
-        id: Math.floor(Math.random() * 100000),
-        createdDate: createdDate.value,
-        status: statusVal.value,
-        firstName: firstName.value,
-        lastName: lastName.value,
-        userName: userName.value,
-        registrationNumber: registrationNumber.value
-    }
-
-    users.push(newUser)
-    addUserModal.style.display = 'none'
-    displayCurrentRow(users.length - 1)
-
-    clearInputs()
-
-})
 
 // create  table tr td
 
@@ -88,11 +51,6 @@ function displayTable() {
     for (let i = 0; i < users.length; i++) {
         displayCurrentRow(i)
     }
-}
-// delete selected table row
-function deleteUser(rowNumber, deleteBtn) {
-     users.pop(rowNumber)
-     table.removeChild(deleteBtn.parentElement.parentElement)
 }
 //display a row
 function displayCurrentRow(i) {
@@ -158,9 +116,51 @@ function displayCurrentRow(i) {
 
     //increase row index
     rowNumber++
-  
+
 }
+//call func
 displayTable()
 
- 
-  
+// delete selected table row
+function deleteUser(rowNumber, deleteBtn) {
+    users.pop(rowNumber)
+    table.removeChild(deleteBtn.parentElement.parentElement)
+}
+
+//display the modal
+showModal.addEventListener('click', () => {
+    addUserModal.style.display = 'block'
+})
+
+//hide modal on bg click
+addUserModal.addEventListener('click', (e) => {
+    if (e.target.classList[0] === 'add_user') {
+        addUserModal.style.display = 'none'
+    }
+})
+//clear inputs 
+function clearInputs() {
+    modalInputs.forEach(input => input.value = '')
+}
+//add user
+//submit form
+addBtn.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    const newUser = {
+        id: Math.floor(Math.random() * 100000),
+        createdDate: createdDate.value,
+        status: statusVal.value,
+        firstName: firstName.value,
+        lastName: lastName.value,
+        userName: userName.value,
+        registrationNumber: registrationNumber.value
+    }
+
+    users.push(newUser)
+    addUserModal.style.display = 'none'
+    displayCurrentRow(users.length - 1)
+
+    clearInputs()
+
+})
